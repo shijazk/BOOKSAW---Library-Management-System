@@ -1,0 +1,36 @@
+{% extends 'author/author_view.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Reviews on Your Books</h2>
+
+    {% if reviews %}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="padding-left: 5px;">Book</th>
+                    <th>Reviewer</th>
+                    <th>Review</th>
+                    <th>Reply</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td style="padding-left: 5px;">{{ review.book.book_name }}</td>
+                    <td>{{ review.user.reader_name }}</td>
+                    <td>{{ review.review_text }}</td>
+                    <td>{{ review.reply|default:"No reply yet" }}</td>
+                    <td>
+                        <a href="{% url 'reply_review' review.id %}" class="btn btn-sm bs-success-rgb">Reply</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-center">No reviews for your books yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

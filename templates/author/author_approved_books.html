@@ -1,0 +1,66 @@
+{% extends "author/author_view.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">Approved Books </h2>
+
+    {% if approved_books %}
+        <div class="row">
+            {% for book in approved_books %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg border-0 rounded-3">
+                        <div class="book-cover-wrapper">
+                            {% if book.book_cover %}
+                                <img src="{{ book.book_cover.url }}" class="book-cover-img" alt="{{ book.book_name }}">
+                            {% else %}
+                                <img src="/static/default-book-cover.jpg" class="book-cover-img" alt="Default Cover">
+                            {% endif %}
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold" style="font-size: 1.5rem; color: #333;">
+                                {{ book.book_name }}
+                            </h5>
+                            <p class="card-text text-muted" style="font-size: 0.9rem;">
+                                <strong>Category:</strong> <span class="text-uppercase">{{ book.get_category_display }}</span>
+                            </p>
+                            <p class="card-text text-success fw-bold" style="font-size: 1.2rem;">
+                                ₹{{ book.price|floatformat:2 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No approved books available.</p>
+    {% endif %}
+</div>
+
+<style>
+    /* Card Image Wrapper */
+    .book-cover-wrapper {
+        width: 100%;
+        height: 400px; /* fixed height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .book-cover-img {
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain; /* keep full image without cropping */
+    }
+
+    /* Card Hover */
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

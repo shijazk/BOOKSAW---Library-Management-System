@@ -1,0 +1,172 @@
+{% extends "reader/reader_view.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">Available Books</h2>
+
+    {% if books %}
+        <div class="row">
+            {% for book in books %}
+                <div class="col-md-4 mb-4">
+                    <!-- Card -->
+                    <div class="card shadow-lg border-0 rounded-3 h-100">
+                        <div class="book-cover-wrapper">
+                            {% if book.book_cover %}
+                                <img src="{{ book.book_cover.url }}" class="book-cover-img" alt="{{ book.book_name }}">
+                            {% else %}
+                                <img src="/static/default-book-cover.jpg" class="book-cover-img" alt="Default Cover">
+                            {% endif %}
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold" style="font-size: 1.5rem; color: #333;">
+                                {{ book.book_name }}
+                            </h5>
+                            <p class="text-muted mb-1" style="font-size: 0.9rem;">
+                                <strong>Author:</strong> {{ book.book_author_name.author_name }}
+                            </p>
+                            <p class="text-muted mb-1" style="font-size: 0.9rem;">
+                                <strong>Category:</strong> {{ book.get_category_display }}
+                            </p>
+                            <p class="text-success fw-bold mb-0" style="font-size: 1.2rem;">
+                                ₹{{ book.price|floatformat:2 }}
+                            </p>
+                        </div>
+
+                        <!-- Card Footer Buttons -->
+                        <div class="card-footer bg-white border-0 d-flex justify-content-around flex-wrap gap-2">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#bookDetailModal{{ book.id }}">
+                                Details
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#borrowModal{{ book.id }}">
+                                Borrow
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reviewModal{{ book.id }}">
+                                Review
+                            </button>
+                            <form method="POST" action="{% url 'add_to_cart' book.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Book Details Modal -->
+                <div class="modal fade" id="bookDetailModal{{ book.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">{{ book.book_name }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-5 text-center mb-3 mb-md-0">
+                                        {% if book.book_cover %}
+                                            <img src="{{ book.book_cover.url }}" class="img-fluid book-modal-img" alt="{{ book.book_name }}">
+                                        {% else %}
+                                            <img src="/static/default-book-cover.jpg" class="img-fluid book-modal-img" alt="Default Cover">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p><strong>Author:</strong> {{ book.book_author_name.author_name }}</p>
+                                        <p><strong>Category:</strong> {{ book.get_category_display }}</p>
+                                        <p><strong>Price:</strong> ₹{{ book.price|floatformat:2 }}</p>
+                                        <hr>
+                                        <h4 class="fw-bold">Author Details</h4>
+                                        <p><strong>Email:</strong> {{ book.book_author_name.author_email }}</p>
+                                        <p><strong>Phone:</strong> {{ book.book_author_name.author_phone_no }}</p>
+                                        <p><strong>Address:</strong> {{ book.book_author_name.author_address }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Borrow Modal -->
+                <div class="modal fade" id="borrowModal{{ book.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Borrow "{{ book.book_name }}"</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'borrow_book' book.id %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label class="form-label">Days to Borrow</label>
+                                        <input type="number" class="form-control" name="days" min="1" value="7">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">Confirm Borrow</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Modal -->
+                <div class="modal fade" id="reviewModal{{ book.id }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Review "{{ book.book_name }}"</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{% url 'add_review' book.id %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label class="form-label">Your Review</label>
+                                        <textarea class="form-control" name="review" rows="3" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">Submit Review</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No books available.</p>
+    {% endif %}
+</div>
+
+<style>
+    .modal-body p { margin-bottom: 0.4rem; line-height: 1.3; }
+    .book-cover-wrapper {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .book-cover-img { max-height: 100%; max-width: 100%; object-fit: contain; }
+    .book-modal-img { max-height: 300px; object-fit: contain; }
+    .card { transition: transform 0.3s ease-in-out; }
+    .card:hover { transform: scale(1.05); }
+    .card-footer { padding: 0.75rem; }
+    .card-footer  { min-width: 70px; }
+
+    .btn-sm { 
+    border-radius: 0.3rem; 
+    }
+</style>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->
+{% endblock %}

@@ -1,0 +1,39 @@
+
+
+{% extends "author/author_view.html" %}
+
+{% block content %}
+
+<h2>Approved Books</h2>
+{% if approved_books %}
+    <ul>
+        {% for book in approved_books %}
+            <li>{{ book.book_name }} - ₹{{ book.price }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No approved books found.</p>
+{% endif %}
+
+<h2>Pending Books</h2>
+{% if pending_books %}
+    <ul>
+        {% for book in pending_books %}
+            <li>{{ book.book_name }} - Awaiting approval</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No pending books.</p>
+{% endif %}
+
+<h2>Rejected Books</h2>
+{% if rejected_books %}
+    <ul>
+        {% for book in rejected_books %}
+            <li>{{ book.book_name }} - Rejected</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No rejected books.</p>
+{% endif %}
+{% endblock %}

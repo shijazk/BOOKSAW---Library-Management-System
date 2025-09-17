@@ -1,0 +1,133 @@
+{% extends 'admin/admin_view.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --accent-color: #C5A992;
+        --secondary-color: #C5A992;
+        --dark-color: #2f2f2f;
+        --light-color: #F3F2EC;
+        --body-text-color: #555555;
+        --light-text-color: #888888;
+        --heading-font: 'Poppins', sans-serif;
+        --body-font: 'Roboto', sans-serif;
+    }
+
+    body {
+        font-family: var(--body-font);
+        color: var(--body-text-color);
+    }
+
+    h2 {
+        font-family: var(--heading-font);
+        font-size: 1.8rem;
+        font-weight: 600;
+    }
+
+    .custom-card {
+        border: none;
+        border-radius: 10px;
+        background: var(--light-color);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .custom-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .custom-card-header {
+        background: var(--accent-color);
+        color: var(--dark-color);
+        font-family: var(--heading-font);
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-align: center;
+        padding: 10px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+
+    .card-title {
+        font-family: var(--heading-font);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: var(--dark-color);
+    }
+
+    .text-muted {
+        font-size: 1.1rem;
+        
+    }
+
+    .alert-warning {
+        background: var(--secondary-color);
+        color: var(--dark-color);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center" style="color: var(--dark-color);">Search Results for "{{ query }}"</h2>
+
+    {% if not books and not authors and not readers %}
+        <div class="alert alert-warning text-center">No results found.</div>
+    {% else %}
+        <div class="row">
+            
+            {% for book in books %}
+            <div class="col-md-4 mb-4">
+                <div class="card custom-card">
+                    <div class="custom-card-header">📚 Book Details</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><strong>{{ book.book_name }}</strong></h5>
+                        <p class="text-muted">Category: {{ book.get_category_display }}</p>
+                        {% if book.book_cover %}
+                        <img src="{{ book.book_cover.url }}" alt="{{ book.book_name }}" class="img-fluid mb-2" style="max-height: 150px; border-radius: 6px;">
+                        {% endif %}
+                        <p><strong>Price:</strong> ₹{{ book.price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for author in authors %}
+            <div class="col-md-4 mb-4">
+                <div class="card custom-card">
+                    <div class="custom-card-header">✍️ Author Details</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ author.author_name }}</h5>
+                        <p class="text-muted"><strong>Email:</strong>{{ author.author_email }}</p>
+                        <p class="text-muted"><strong>Place:</strong>{{ author.author_address }}</p>
+                        <p class="text-muted"><strong>Phone:</strong> {{ author.author_phone_no }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% for reader in readers %}
+            <div class="col-md-4 mb-4">
+                <div class="card custom-card">
+                    <div class="custom-card-header">📖 Reader Details</div>
+                    <div class="card-body text-center">
+                        <h5 class="card-title"><strong>{{ reader.reader_name }}</strong></h5>
+                        <p class="text-muted"><strong>Email:</strong> {{ reader.reader_email }}</p>
+                        <p class="text-muted"><strong>Place:</strong>{{ reader.reader_address }}</p>
+                        <p class="text-muted"><strong>Phone:</strong> {{ reader.reader_phone_no }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

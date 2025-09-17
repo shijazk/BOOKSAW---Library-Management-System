@@ -1,0 +1,35 @@
+{% extends 'admin/admin_view.html' %}
+{% block content %}
+
+<h3>Borrow Records</h3>
+<table border="1" style="border-collapse: collapse; width: 80%; margin-left: 20px;">
+    <tr>
+        <th style="padding: 10px;">User</th>
+        <th style="padding: 10px;">Book</th>
+        <th style="padding: 10px;">Borrow Date</th>
+        <th style="padding: 10px;">Return Date</th>
+        <th style="padding: 10px;">Status</th>
+        <th style="padding: 10px;">Actions</th>
+    </tr>
+    {% for borrow in borrow_records %}
+    <tr>
+        <td style="padding: 10px;">{{ borrow.user_borrow.user_reader.username }}</td>
+        <td style="padding: 10px;">{{ borrow.book_borrow.book_name }}</td>
+        <td style="padding: 10px;">{{ borrow.borrow_date }}</td>
+        <td style="padding: 10px;">{{ borrow.return_date|default:"Not returned" }}</td>
+        <td style="padding: 10px;">{{ borrow.status }}</td>
+        <td style="padding: 10px;">
+            {% if borrow.status == 'borrowed' %}
+                <a href="{% url 'borrow_return' borrow.id %}">Mark as Returned</a>
+            {% else %}
+                Returned
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6" style="padding: 10px;">No borrow records found.</td></tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

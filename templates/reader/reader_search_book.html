@@ -1,0 +1,88 @@
+{% extends "reader/reader_view.html" %}
+
+{% block content %}
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">Search Results</h2>
+
+    {% if books %}
+        <div class="row">
+            {% for book in books %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg border-0 rounded-3">
+
+                        
+                        <div class="book-cover-wrapper">
+                            {% if book.book_cover %}
+                                <img src="{{ book.book_cover.url }}" class="book-cover-img" alt="{{ book.book_name }}">
+                            {% else %}
+                                <img src="/static/default-book-cover.jpg" class="book-cover-img" alt="Default Cover">
+                            {% endif %}
+                        </div>
+
+                        
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold book-title">{{ book.book_name }}</h5>
+                            <p class="card-text category"><strong>Author:</strong> {{ book.book_author_name.author_name }}</p>
+                            <p class="card-text category"><strong>Category:</strong> <span class="text-uppercase">{{ book.get_category_display }}</span></p>
+                            <p class="card-text price">₹{{ book.price|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No books or authors found for "{{ query }}".</p>
+    {% endif %}
+</div>
+
+
+<style>
+    .book-cover-wrapper {
+        width: 100%;
+        height: 280px;
+        overflow: hidden;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background: #f8f9fa;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .book-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 10px;
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .book-title {
+        font-size: 1.3rem;
+        color: #212529;
+        margin-bottom: 10px;
+    }
+
+    .category {
+        font-size: 1rem;
+        color: #6c757d;
+        margin: 4px 0;
+    }
+
+    .price {
+        font-size: 1.2rem;
+        color: #28a745;
+        font-weight: bold;
+        margin-top: 8px;
+    }
+</style>
+{% endblock %}

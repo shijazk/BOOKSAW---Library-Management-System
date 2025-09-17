@@ -1,0 +1,25 @@
+{% extends 'reader/reader_view.html' %}
+
+{% block content %}
+<h2 style="margin-left: 20px;">My Reviews</h2>
+
+{% if reviews %}
+<table border="1" style="border-collapse: collapse; width: 80%; margin-left: 20px;">
+    <tr>
+        <th style="padding: 10px;">Book</th>
+        <th style="padding: 10px;">Review</th>
+        <th style="padding: 10px;">Created At</th>
+    </tr>
+    {% for review in reviews %}
+    <tr>
+        <td style="padding: 10px;">{{ review.book.book_name }}</td>
+        <td style="padding: 10px;">{{ review.review_text }}</td>
+        <td style="padding: 10px;">{{ review.created_at|date:"Y-m-d H:i" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p style="margin-left: 20px;">You have not added any reviews yet.</p>
+{% endif %}
+
+{% endblock %}

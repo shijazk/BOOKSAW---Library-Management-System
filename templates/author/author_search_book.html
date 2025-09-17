@@ -1,0 +1,350 @@
+{% extends "author/author_view.html" %}
+
+{% block content %}
+
+
+
+<!--<h2>Search Books</h2>-->
+
+<!--    <form method="GET">-->
+<!--        {{ filter.form.as_p }}  &lt;!&ndash; Render filter form &ndash;&gt;-->
+<!--        <button type="submit">Search</button>-->
+<!--    </form>-->
+
+<!--    {% if filter.qs %}-->
+<!--        <h3>Search Results:</h3>-->
+<!--        <ul>-->
+<!--            {% for book in filter.qs %}-->
+<!--                <li>{{ book.book_name }} - {{ book.book_author_name.author_name }}</li>-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--    {% else %}-->
+<!--        <p>No books found.</p>-->
+<!--    {% endif %}-->
+
+<!--<h2>Search Books</h2>-->
+
+<!--    <form method="GET">-->
+<!--        {{ filter.form.as_p }}  &lt;!&ndash; Render search filter form &ndash;&gt;-->
+<!--        <button type="submit">Search</button>-->
+<!--    </form>-->
+
+<!--    {% if filter.qs %}-->
+<!--        <h3>Search Results:</h3>-->
+<!--        <ul>-->
+<!--            {% for book in filter.qs %}-->
+<!--                <li>{{ book.book_name }} - {{ book.book_author_name.author_name }}</li>-->
+<!--            {% endfor %}-->
+<!--        </ul>-->
+<!--    {% else %}-->
+<!--        <p>No books found.</p>-->
+<!--    {% endif %}-->
+
+
+<!--<div class="container mt-4">-->
+<!--        <h2 class="text-center">Book List</h2>-->
+<!--        <div class="row">-->
+<!--            {% for book in books %}-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card shadow-sm">-->
+<!--                        {% if book.book_cover %}-->
+<!--                            <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Book Cover">-->
+<!--                        {% endif %}-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">{{ book.book_name }}</h5>-->
+<!--                            <p class="card-text">Author: {{ book.book_author_name.author_name }}</p>-->
+<!--                            <p class="card-text">Price: ₹{{ book.price }}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {% empty %}-->
+<!--                <p class="text-center">No books found.</p>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--<div class="container mt-4">-->
+<!--    <h2 class="text-center">Book Search Results</h2>-->
+
+<!--    &lt;!&ndash; Search Form &ndash;&gt;-->
+<!--    <form method="get">-->
+<!--        {{ filter.form.as_p }}-->
+<!--        <button type="submit" class="btn btn-primary">Search</button>-->
+<!--    </form>-->
+
+<!--    <div class="row mt-3">-->
+<!--        {% for book in books %}-->
+<!--            <div class="col-md-4 mb-4">-->
+<!--                <div class="card shadow-sm">-->
+<!--                    {% if book.book_cover %}-->
+<!--                        <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Book Cover">-->
+<!--                    {% endif %}-->
+<!--                    <div class="card-body">-->
+<!--                        <h5 class="card-title">{{ book.book_name }}</h5>-->
+<!--                        <p class="card-text">Author: {{ book.book_author_name.author_name }}</p>-->
+<!--                        <p class="card-text">Price: ₹{{ book.price }}</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        {% empty %}-->
+<!--            <p class="text-center">No books found.</p>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+<!--<div class="container mt-4">-->
+<!--    {% if books %}-->
+<!--        <h2 class="text-center">Search Results</h2>-->
+<!--        <div class="row">-->
+<!--            {% for book in books %}-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card shadow-sm">-->
+<!--                        {% if book.book_cover %}-->
+<!--                            <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Book Cover">-->
+<!--                        {% endif %}-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title">{{ book.book_name }}</h5>-->
+<!--                            <p class="card-text">Author: {{ book.book_author_name.author_name }}</p>-->
+<!--                            <p class="card-text">Price: ₹{{ book.price }}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    {% elif request.GET.q %}-->
+<!--        <p class="text-center mt-3">No books found.</p>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+<!--<div class="container mt-4">-->
+<!--    {% if books %}-->
+<!--        <h2 class="text-center mb-4">Search Results</h2>-->
+<!--        <div class="row">-->
+<!--            {% for book in books %}-->
+<!--                <div class="col-md-4 mb-4">-->
+<!--                    <div class="card shadow-sm border-0 rounded">-->
+<!--                        {% if book.book_cover %}-->
+<!--                            <img src="{{ book.book_cover.url }}" class="card-img-top" alt="Book Cover" style="height: 250px; object-fit: cover;">-->
+<!--                        {% endif %}-->
+<!--                        <div class="card-body">-->
+<!--                            <h5 class="card-title fw-bold text-primary">{{ book.book_name }}</h5>-->
+<!--                            <p class="card-text mb-1"><strong>Author:</strong> <span class="text-dark">{{ book.book_author_name.author_name }}</span></p>-->
+<!--                            <p class="card-text mb-1"><strong>Category:</strong> <span class="badge bg-success">{{ book.category }}</span></p>-->
+<!--                            <p class="card-text text-danger fw-bold">₹{{ book.price }}</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    {% elif request.GET.q %}-->
+<!--        <p class="text-center mt-3 text-muted">No books found.</p>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+<!-- <div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">My Books</h2>
+
+    {% if books %}
+        <div class="row">
+            {% for book in books %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg border-0 rounded-3">
+                        <div class="book-cover-wrapper">
+                            {% if book.book_cover %}
+                                <img src="{{ book.book_cover.url }}" class="book-cover-img" alt="{{ book.book_name }}">
+                            {% else %}
+                                <img src="/static/default-book-cover.jpg" class="book-cover-img" alt="Default Cover">
+                            {% endif %}
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-semibold book-title">
+                                {{ book.book_name }}
+                            </h5>
+                            <p class="card-text category">
+                                <strong>Category:</strong> <span class="text-uppercase">{{ book.get_category_display }}</span>
+                            </p>
+                            <p class="card-text price">₹{{ book.price|floatformat:2 }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-muted">No books added yet.</p>
+    {% endif %}
+</div>
+
+<style>
+    .book-cover-wrapper {
+        width: 100%;
+        height: 780px; /* Adjusted for better layout */
+        overflow: hidden;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    .book-cover-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .book-title {
+        font-size: 1.4rem;
+        color: #333;
+    }
+    .category {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    .price {
+        font-size: 1.2rem;
+        color: #28a745;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        .book-cover-wrapper {
+            height: 220px;
+        }
+        .book-title {
+            font-size: 1.2rem;
+        }
+        .price {
+            font-size: 1rem;
+        }
+    }
+</style> -->
+
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">My Books</h2>
+  
+    {% if books %}
+      <div class="row g-3">
+        {% for book in books %}
+          <div class="col-sm-6 col-md-4 ">
+            <article class="card book-card h-100" role="article" aria-labelledby="title-{{ forloop.counter }}">
+              <div class="book-cover-wrapper">
+                {% if book.book_cover %}
+                  <img src="{{ book.book_cover.url }}" class="book-cover-img" alt="{{ book.book_name }}">
+                {% else %}
+                <img src="/static/default-book-cover.jpg" class="book-cover-img" alt="Default Cover">
+                {% endif %}
+              </div>
+  
+              <div class="card-body d-flex flex-column justify-content-between text-center">
+                <div>
+                  <h5 id="title-{{ forloop.counter }}" class="card-title book-title mb-2">
+                    {{ book.book_name }}
+                  </h5>
+  
+                  <p class="card-text category mb-2">
+                    <small><strong>Category:</strong> <span class="text-uppercase">{{ book.get_category_display }}</span></small>
+                  </p>
+                </div>
+  
+                <div class="mt-2">
+                  <p class="card-text price mb-0" aria-label="Price">₹{{ book.price|floatformat:2 }}</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-center text-muted">No books added yet.</p>
+    {% endif %}
+  </div>
+  
+  
+  <style>
+    :root{
+      --card-radius: 12px;
+      --cover-height-lg: 320px;
+      --cover-height-sm: 220px;
+      --title-size-lg: 1.05rem;
+      --title-size-sm: .98rem;
+      --price-size-lg: 1.12rem;
+      --price-size-sm: 1rem;
+    }
+  
+    /* Card base */
+    .book-card{
+      border: none;
+      border-radius: var(--card-radius);
+      overflow: hidden; /* keeps image clipped to rounded corners */
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      background: #fff;
+    }
+    .book-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    }
+  
+    /* Cover area */
+    .book-cover-wrapper{
+      width: 100%;
+      height: var(--cover-height-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f7f7f7;
+    }
+    .book-cover-img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* fills the area uniformly */
+      display: block;
+    }
+  
+    /* Body and texts */
+    .card-body{ padding: 1rem; }
+    .book-title{
+      font-size: var(--title-size-lg);
+      font-weight: 600;
+      color: #222;
+      margin: 0;
+      /* clamp long titles to 2 lines with ellipsis */
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.2;
+    }
+    .category{
+      font-size: 0.86rem;
+      color: #6c757d;
+      margin: 0;
+    }
+    .price{
+      font-size: var(--price-size-lg);
+      color: #28a745;
+      font-weight: 700;
+      margin: 0;
+    }
+  
+    /* Responsive adjustments */
+    @media (max-width: 768px){
+      .book-cover-wrapper{ height: var(--cover-height-sm); }
+      .book-title{ font-size: var(--title-size-sm); }
+      .price{ font-size: var(--price-size-sm); }
+    }
+  
+    /* Optional: smaller gutters on very narrow screens */
+    @media (max-width: 420px){
+      .card-body{ padding: 0.75rem; }
+    }
+  </style>
+
+
+
+
+{% endblock %}

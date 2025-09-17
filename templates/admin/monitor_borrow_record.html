@@ -1,0 +1,173 @@
+{% extends 'admin/admin_view.html' %}
+
+{% block content %}
+<div class="container my-4">
+
+    
+    <div class="mb-4 text-center">
+        <h4 class="fw-bold" style="color:#C5A992; font-size: 30px;"><i class="fas fa-chart-line me-2"></i>Monitor Borrow Records</h4>
+        <p class="text-muted">Track and manage all book borrowing activities</p>
+       
+    </div>
+
+    
+    <div class="row g-3 mb-4 text-center" style="justify-content: center;">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <h5>{{ page_obj.paginator.count }}</h5>
+                <small>Total Records</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <h5>{{ total_borrowed }}</h5>
+                <small>Currently Borrowed</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <h5>{{ total_returned }}</h5>
+                <small>Returned Books</small>
+            </div>
+        </div>
+    </div>
+
+    
+    <form method="GET" class="row g-2 mb-4 align-items-center">
+        <div class="col-md-4">
+            <input type="text" name="search" class="form-control" placeholder="Search by reader or book..." value="{{ search_query }}">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All Status</option>
+                <option value="borrowed" {% if status_filter == 'borrowed' %}selected{% endif %}>Borrowed</option>
+                <option value="returned" {% if status_filter == 'returned' %}selected{% endif %}>Returned</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-custom w-100">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button href="{% url 'monitor_borrow_record' %}" class="btn btn-custom w-100">
+                <i class="fas fa-refresh"></i> Clear
+            </button>
+        </div>
+    </form>
+
+    
+    <div class="card border-0">
+        <div class="card-body p-0">
+            {% if page_obj %}
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                        <thead style="background-color:#C5A992; color:white;">
+                            <tr>
+                                <th style="padding-left: 10px;">ID</th>
+                                <th>Reader</th>
+                                <th>Book</th>
+                                <th>Author</th>
+                                <th>Borrow Date</th>
+                                <th>Return Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for borrow in page_obj %}
+                            <tr>
+                                <td style="padding-left: 10px;">{{ borrow.id }}</td>
+                                <td >{{ borrow.user_borrow.reader_name }}</td>
+                                <td>{{ borrow.book_borrow.book_name }}</td>
+                                <td>{{ borrow.book_borrow.book_author_name.author_name }}</td>
+                                <td>{{ borrow.borrow_date|date:"M d, Y H:i" }}</td>
+                                <td>
+                                    {% if borrow.return_date %}
+                                        {{ borrow.return_date|date:"M d, Y H:i" }}
+                                    {% else %}
+                                        <span class="text-muted">Not returned</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="badge {% if borrow.status == 'borrowed' %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                                        {{ borrow.status|capfirst }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if borrow.status == 'borrowed' %}
+                                        <a href="{% url 'mark_as_returned' borrow.id %}" class="btn btn-custom btn-sm">Mark Returned</a>
+                                    {% else %}
+                                        <span class="text-muted">No action</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                
+                <nav class="mt-3">
+                    <ul class="pagination justify-content-center mb-0">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}&status={{ status_filter }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item disabled">
+                            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&search={{ search_query }}&status={{ status_filter }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% else %}
+                <p class="text-center text-muted mt-3">No borrow records found.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+
+<style>
+    .stat-card {
+        font-size: 40px;
+        background-color: #C5A992;
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    .stat-card small {
+        font-size: 25px;
+    }
+    .btn-custom {
+        background-color: #C5A992;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        width: 100%;
+    }
+    .btn-custom-outline {
+        background-color: white;
+        color: #C5A992;
+        border: 2px solid #C5A992;
+        padding: 8px 12px;
+        width: 100%;
+    }
+    .btn-custom:hover, .btn-custom-outline:hover {
+        background-color: #C5A992;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        width: 100%;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+    }
+</style>
+{% endblock %}

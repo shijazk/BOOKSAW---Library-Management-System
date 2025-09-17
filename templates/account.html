@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Bar with Account Dropdown</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .top-content {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .right-element {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dropdown-menu {
+            min-width: 250px;
+        }
+
+        .search-bar {
+            position: relative;
+        }
+
+        .search-box {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: white;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar.active .search-box {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="right-element">
+                        <!-- Account Dropdown -->
+                        <div class="dropdown">
+                            <a href="#" class="user-account dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i><span> Account</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end p-3 shadow-lg" aria-labelledby="accountDropdown">
+                                <li>
+                                    <p class="mb-1"><strong>Name:</strong> John Doe</p>
+                                </li>
+                                <li>
+                                    <p class="mb-3"><strong>Email:</strong> john.doe@example.com</p>
+                                </li>
+                                <li>
+                                    <button class="btn btn-danger w-100">Log Out</button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Cart -->
+                        <a href="#" class="cart"><i class="fas fa-shopping-cart"></i><span> Cart: (0)</span></a>
+
+                        <!-- Search Bar -->
+                        <div class="search-bar">
+                            <a href="#" class="search-button" onclick="toggleSearch(event)">
+                                <i class="fas fa-search"></i>
+                            </a>
+                            <form role="search" method="get" class="search-box">
+                                <input class="search-field text search-input form-control" placeholder="Search" type="search">
+                            </form>
+                        </div>
+                    </div><!-- right-element -->
+                </div>
+            </div>
+        </div>
+    </div><!-- top-content -->
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- FontAwesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+    <!-- JavaScript for Search Toggle -->
+    <script>
+        function toggleSearch(event) {
+            event.preventDefault();
+            const searchBar = event.currentTarget.closest('.search-bar');
+            searchBar.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

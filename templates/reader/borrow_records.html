@@ -1,0 +1,50 @@
+{% extends "reader/reader_view.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h3 class="text-center mb-4 fw-bold">📚 My Borrowed Books</h3>
+
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-body">
+            {% if borrow_records %}
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Book</th>
+                            <th>Author</th>
+                            <th>Borrow Date</th>
+                            <th>Return Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for borrow in borrow_records %}
+                        <tr>
+                            <td>{{ borrow.book_borrow.book_name }}</td>
+                            <td>{{ borrow.book_borrow.book_author_name.author_name }}</td>
+                            <td>{{ borrow.borrow_date|date:"M d, Y H:i" }}</td>
+                            <td>{{ borrow.return_date|default:"Not returned" }}</td>
+                            <td class="{% if borrow.status == 'borrowed' %}text-danger fw-bold{% else %}text-success fw-bold{% endif %}">
+                                {{ borrow.status }}
+                            </td>
+                            <td>
+                                {% if borrow.status == "borrowed" %}
+                                    <a href="{% url 'reader_return_book' borrow.id %}" 
+                                       class="btn btn-sm btn-outline-success">Return</a>
+                                {% else %}
+                                    <span class="badge bg-success">✅ Returned</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p class="text-center text-muted">You haven’t borrowed any books yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

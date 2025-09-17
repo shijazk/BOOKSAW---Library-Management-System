@@ -1,0 +1,22 @@
+{% extends 'reader/reader_view.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Add Review for "{{ book.book_name }}"</h2>
+
+    <div class="card shadow-sm p-4">
+        <h5>Book: {{ book.book_name }}</h5>
+        <p>Category: {{ book.get_category_display }}</p>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="reviewText" class="form-label">Your Review</label>
+                <textarea class="form-control" id="reviewText" name="review" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+            <a href="{% url 'reader_book_list' %}" class="btn btn-secondary ms-2">Back to Book List</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

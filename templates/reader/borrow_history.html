@@ -1,0 +1,36 @@
+{% extends "reader/reader_view.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Borrow History</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Book Name</th>
+                <th>Borrow Date</th>
+                <th>Status</th>
+                <th>Return</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in borrow_history %}
+            <tr>
+                <td>{{ record.book_borrow.book_name }}</td>
+                <td>{{ record.borrow_date }}</td>
+                <td>{{ record.status }}</td>
+                <td>
+                    {% if record.status == "borrowed" %}
+                        <a href="{% url 'return_book' record.id %}" class="btn btn-warning">Return</a>
+                    {% else %}
+                        Returned on {{ record.return_date }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No records found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

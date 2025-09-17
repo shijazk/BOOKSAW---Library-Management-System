@@ -1,0 +1,45 @@
+{% extends 'admin/admin_view.html' %}
+{% block content %}
+
+<h3 style="padding-left:18px;">List of Approved Readers</h3>
+<table border="1" style="border-collapse: collapse; width: 80%; margin-left: 20px;">
+    <tr>
+        <th style="padding: 10px; text-align: left;">Reader Name</th>
+        <th style="padding: 10px; text-align: left;">Email</th>
+        <th style="padding: 10px; text-align: left;">Phone</th>
+        <th style="padding: 10px; text-align: left;">Address</th>
+    </tr>
+    {% for reader in approved_readers %}
+    <tr>
+        <td style="padding: 10px;">{{ reader.reader_name }}</td>
+        <td style="padding: 10px;">{{ reader.reader_email }}</td>
+        <td style="padding: 10px;">{{ reader.reader_phone_no }}</td>
+        <td style="padding: 10px;">{{ reader.reader_address }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" style="padding: 10px;">No approved readers yet.</td></tr>
+    {% endfor %}
+</table>
+
+<h3 style="padding-left:18px;">Pending Reader Approvals</h3>
+<table border="1" style="border-collapse: collapse; width: 80%; margin-left: 20px;">
+    <tr>
+        <th style="padding: 10px; text-align: left;">Name</th>
+        <th style="padding: 10px; text-align: left;">Email</th>
+        <th style="padding: 10px; text-align: left;">Actions</th>
+    </tr>
+    {% for reader in pending_readers %}
+    <tr>
+        <td style="padding: 10px;">{{ reader.reader_name }}</td>
+        <td style="padding: 10px;">{{ reader.reader_email }}</td>
+        <td style="padding: 10px;">
+            <a href="{% url 'approve_reader' reader.id %}">Approve</a> |
+            <a href="{% url 'reject_reader' reader.id %}">Reject</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3" style="padding: 10px;">No pending readers.</td></tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

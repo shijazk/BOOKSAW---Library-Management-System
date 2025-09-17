@@ -1,0 +1,85 @@
+{% extends 'admin/admin_view.html' %}
+
+
+
+
+
+{% block content %}
+
+<h2>322</h2>
+<h2>Admin Dashboard</h2>
+
+ <h3>Pending Author Approvals</h3>
+<!--<table border="1">-->
+<!--    <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Actions</th>-->
+<!--    </tr>-->
+<!--    {% for author in authors %}-->
+<!--    <tr>-->
+<!--        <td>{{ author.author_name }}</td>-->
+<!--        <td>{{ author.author_email }}</td>-->
+<!--        <td>-->
+<!--            <a href="{% url 'approve_author' author.id %}">Approve</a> |-->
+<!--            <a href="{% url 'reject_author' author.id %}">Reject</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table> -->
+
+<!--<h3>Pending Book Approvals</h3>-->
+<!--<table border="1">-->
+<!--    <tr>-->
+<!--        <th>Book Name</th>-->
+<!--        <th>Author</th>-->
+<!--        <th>Category</th>-->
+<!--        <th>Actions</th>-->
+<!--    </tr>-->
+<!--    {% for book in books %}-->
+<!--    <tr>-->
+<!--        <td>{{ book.book_name }}</td>-->
+<!--        <td>{{ book.book_author.author_name }}</td>-->
+<!--        <td>{{ book.get_category_display }}</td>-->
+<!--        <td>-->
+<!--            <a href="{% url 'approve_book' book.id %}">Approve</a> |-->
+<!--            <a href="{% url 'reject_book' book.id %}">Reject</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table>-->
+
+<!--<h3>Registered Readers</h3>-->
+<!--<table border="1">-->
+<!--    <tr>-->
+<!--        <th>Username</th>-->
+<!--        <th>Email</th>-->
+<!--    </tr>-->
+<!--    {% for user in users %}-->
+<!--    <tr>-->
+<!--        <td>{{ user.username }}</td>-->
+<!--        <td>{{ user.email }}</td>-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table>-->
+
+<!--<h3>Borrow Records</h3>-->
+<!--<table border="1">-->
+<!--    <tr>-->
+<!--        <th>User</th>-->
+<!--        <th>Book</th>-->
+<!--        <th>Borrow Date</th>-->
+<!--        <th>Status</th>-->
+<!--    </tr>-->
+<!--    {% for borrow in borrow_records %}-->
+<!--    <tr>-->
+<!--        <td>{{ borrow.user.user_reader.username }}</td>-->
+<!--        <td>{{ borrow.book.book_name }}</td>-->
+<!--        <td>{{ borrow.borrow_date }}</td>-->
+<!--        <td>{{ borrow.status }}</td>-->
+<!--    </tr>-->
+<!--    {% endfor %}-->
+<!--</table> -->
+<h1>fv</h1>
+
+{% endblock %}
