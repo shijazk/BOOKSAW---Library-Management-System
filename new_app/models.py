@@ -15,6 +15,7 @@ class reader(models.Model):
     reader_email = models.EmailField(default='default_email@example.com')
     reader_address = models.CharField(max_length=100)
     is_approved = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.reader_name
@@ -23,10 +24,11 @@ class reader(models.Model):
 class author(models.Model):
     user_author = models.ForeignKey(Login, on_delete=models.CASCADE, related_name='author')
     author_name = models.CharField(max_length=100)
-    author_phone_no = models.CharField(max_length=15)
+    author_phone_no = models.CharField(max_length=12)
     author_email = models.CharField(max_length=100)
     author_address = models.CharField(max_length=100)
     is_approved = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
 
     def __str__(self):
         return self.author_name

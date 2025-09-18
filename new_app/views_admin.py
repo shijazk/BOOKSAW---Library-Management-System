@@ -26,40 +26,48 @@ def admin_dashboard(request):
 #     authors = author.objects.all()
 #     return render(request,'admin/manage_author.html', {'authors': authors})
 
+
+
 @login_required(login_url='login_view')
 def manage_author(request):
-    approved_authors = author.objects.filter(is_approved=True)  
-    pending_authors = author.objects.filter(is_approved=False)  
+    approved_authors = author.objects.filter(is_approved=True, is_rejected=False)  
+    pending_authors = author.objects.filter(is_approved=False, is_rejected=False)  
+    rejected_authors = author.objects.filter(is_rejected=True)
 
     return render(request, 'admin/manage_author.html', {
         'approved_authors': approved_authors,
-        'pending_authors': pending_authors
+        'pending_authors': pending_authors,
+        'rejected_authors': rejected_authors
     })
+
 
 @login_required(login_url='login_view')
 def approve_author(request, author_id):
     authors = get_object_or_404(author, id=author_id)
     authors.is_approved = True
+    authors.is_rejected = False
     authors.save()
     messages.success(request, "Author approved successfully!")
-    return redirect('admin_dashboard')
+    return redirect('manage_author')
+
+
 
 @login_required(login_url='login_view')
 def reject_author(request, author_id):
     authors = get_object_or_404(author, id=author_id)
-    authors.delete()
-    messages.error(request, "Author rejected and deleted!")
-    return redirect('admin_dashboard')
+    authors.is_rejected = True
+    authors.is_approved = False  # make sure it's not approved
+    authors.save()
+    messages.error(request, "Author rejected successfully!")
+    return redirect('manage_author')
 
-# def manage_books(request):
-#     """View books with pending & approved status"""
-#     approved_books = book.objects.filter(is_approved=True)
-#     pending_books = book.objects.filter(is_approved=False)
-#
-#     return render(request, 'admin/manage_books.html', {
-#         'approved_books': approved_books,
-#         'pending_books': pending_books
-#     })
+@login_required(login_url='login_view')
+def rejected_authors(request):
+    rejected_authors = author.objects.filter(is_rejected=True)
+    return render(request, 'admin/rejected_authors.html', {'rejected_authors': rejected_authors})
+
+
+
 @login_required(login_url='login_view')
 def manage_books(request):
     """View books with pending, approved, and rejected status"""
@@ -75,7 +83,7 @@ def manage_books(request):
 
 @login_required(login_url='login_view')
 def approve_book(request, book_id):
-    """Approve a book"""
+    
     books = get_object_or_404(book, id=book_id)
     books.is_approved = True
     books.save()
@@ -84,7 +92,7 @@ def approve_book(request, book_id):
 
 @login_required(login_url='login_view')
 def reject_book(request, book_id):
-    """Reject (Delete) a book"""
+    
     books = get_object_or_404(book, id=book_id)
     books.delete()
     messages.error(request, "Book rejected and deleted!")

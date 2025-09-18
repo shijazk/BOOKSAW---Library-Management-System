@@ -28,7 +28,7 @@ class author_reg(forms.ModelForm):
     class Meta:
         model=author
         fields="__all__"
-        exclude=('user_author', 'is_approved',)
+        exclude=('user_author', 'is_approved', 'is_rejected')
 
 
 

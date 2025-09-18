@@ -41,6 +41,9 @@ urlpatterns = [
      #manage_author
     path("manage_author",views_admin.manage_author,name='manage_author'),
 
+    path("rejected_authors/", views_admin.rejected_authors, name="rejected_authors"),
+
+
     #manage_reader
     path("manage_reader",views_admin.manage_reader,name='manage_reader'),
 
