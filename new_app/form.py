@@ -19,7 +19,7 @@ class reader_reg(forms.ModelForm):
     class Meta:
         model=reader
         fields="__all__"
-        exclude=('user_reader', 'is_approved',)
+        exclude=('user_reader', 'is_approved', 'is_rejected')
 
 
 

@@ -51,7 +51,7 @@ urlpatterns = [
 
     path("reject_reader/<int:reader_id>/", views_admin.reject_reader, name='reject_reader'),
 
-
+    
 
     #borrow_record
     path("borrow_record",views_admin.monitor_borrow_record,name='borrow_record'),

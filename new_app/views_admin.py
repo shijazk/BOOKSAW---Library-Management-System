@@ -133,29 +133,61 @@ def mark_as_returned(request, borrow_id):
     messages.success(request, f"Book '{borrow.book_borrow.book_name}' returned by {borrow.user_borrow.reader_name}")
     return redirect('borrow_record')
 
+# @login_required(login_url='login_view')
+# def manage_reader(request):
+#     approved_readers = reader.objects.filter(is_approved=True)  
+#     pending_readers = reader.objects.filter(is_approved=False)  
+
+#     return render(request, 'admin/manage_reader.html', {
+#         'approved_readers': approved_readers,
+#         'pending_readers': pending_readers
+#     })
+
 @login_required(login_url='login_view')
 def manage_reader(request):
-    approved_readers = reader.objects.filter(is_approved=True)  
-    pending_readers = reader.objects.filter(is_approved=False)  
+    approved_readers = reader.objects.filter(is_approved=True, is_rejected=False)
+    pending_readers = reader.objects.filter(is_approved=False, is_rejected=False)
+    rejected_readers = reader.objects.filter(is_rejected=True)
 
     return render(request, 'admin/manage_reader.html', {
         'approved_readers': approved_readers,
-        'pending_readers': pending_readers
+        'pending_readers': pending_readers,
+        'rejected_readers': rejected_readers,
     })
+
+# @login_required(login_url='login_view')
+# def approve_reader(request, reader_id):
+#     reader_obj = get_object_or_404(reader, id=reader_id)
+#     reader_obj.is_approved = True  
+#     reader_obj.save()
+#     messages.success(request, f"Reader {reader_obj.reader_name} approved!")
+#     return redirect('manage_reader')
+
+# @login_required(login_url='login_view')
+# def reject_reader(request, reader_id):
+#     reader_obj = get_object_or_404(reader, id=reader_id)
+#     reader_obj.delete()  
+#     messages.success(request, "Reader rejected!")
+#     return redirect('manage_reader')
+
 
 @login_required(login_url='login_view')
 def approve_reader(request, reader_id):
     reader_obj = get_object_or_404(reader, id=reader_id)
-    reader_obj.is_approved = True  
+    reader_obj.is_approved = True
+    reader_obj.is_rejected = False
     reader_obj.save()
     messages.success(request, f"Reader {reader_obj.reader_name} approved!")
     return redirect('manage_reader')
 
+
 @login_required(login_url='login_view')
 def reject_reader(request, reader_id):
     reader_obj = get_object_or_404(reader, id=reader_id)
-    reader_obj.delete()  
-    messages.success(request, "Reader rejected!")
+    reader_obj.is_rejected = True
+    reader_obj.is_approved = False
+    reader_obj.save()
+    messages.success(request, f"Reader {reader_obj.reader_name} rejected!")
     return redirect('manage_reader')
 
 @login_required(login_url='login_view')

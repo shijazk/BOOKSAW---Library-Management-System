@@ -11,10 +11,11 @@ class Login(AbstractUser):
 class reader(models.Model):
     user_reader = models.ForeignKey(Login, on_delete=models.CASCADE, related_name='reader')
     reader_name = models.CharField(max_length=50)
-    reader_phone_no = models.CharField(max_length=15)
+    reader_phone_no = models.CharField(max_length=12)
     reader_email = models.EmailField(default='default_email@example.com')
     reader_address = models.CharField(max_length=100)
     is_approved = models.BooleanField(default=False)
+    is_rejected = models.BooleanField(default=False)
     
 
     def __str__(self):
